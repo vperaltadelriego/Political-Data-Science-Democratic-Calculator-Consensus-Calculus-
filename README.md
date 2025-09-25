@@ -59,3 +59,39 @@ data = {
     'ballot': ['vanilla', 'vanilla', 'chocolate', 'fresa']
 }
 df = pd.DataFrame(data)
+```
+### 2. Initialize the Library
+Define your analysis parameters and initialize the PoliticalDataScience class.
+
+```Python
+option_relationships = {
+    "napolitano": ["vanilla", "chocolate", "fresa"],
+    "fresa": ["napolitano"]
+}
+
+pds = PoliticalDataScience(
+    df,
+    voter_columns=['voter_id', 'name'],
+    ballot_columns=['ballot'],
+    identity_columns=['voter_id'],
+    weight_column='weight',
+    valid_ballots=['vanilla', 'chocolate', 'fresa', 'napolitano'],
+    option_relationships=option_relationships,
+    categoricity="good_to_bad",
+    scale="closed",
+    semantics="standard" # Use "exclusionary" or "open_world" to change preference logic
+)
+```
+### 3. Run a Comparison
+Call the main comparison method to get results across all systems.
+
+```Python
+
+results = pds.compare_voting_systems()
+
+print(results['borda_count']['result'])
+# Output will show the preferential ranking, e.g., 'fresa > vanilla > chocolate'
+
+print(results['condorcet_method']['result'])
+# Output will show the Condorcet ranking/winner
+```
